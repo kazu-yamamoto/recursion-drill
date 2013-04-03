@@ -1,14 +1,7 @@
 -- % cabal install hspec
 -- % runghc 1.hs
 
-import Control.Applicative
-import Test.Hspec
-import Test.Hspec.QuickCheck
-import Test.QuickCheck
-
-newtype Small = Small Int deriving Show
-instance Arbitrary Small where
-    arbitrary = Small . (`mod` 10) <$> arbitrary
+import Small
 
 main :: IO ()
 main = hspec $ do

@@ -1,15 +1,8 @@
 -- % cabal install hspec
 -- % runghc 1.hs
 
-import Control.Applicative
 import Nat
-import Test.Hspec
-import Test.Hspec.QuickCheck
-import Test.QuickCheck
-
-newtype Small = Small Int deriving Show
-instance Arbitrary Small where
-    arbitrary = Small . (`mod` 10) <$> arbitrary
+import Small
 
 main :: IO ()
 main = hspec $ do
@@ -31,7 +24,7 @@ main = hspec $ do
     describe "remainder" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 1
         ==> toInt (fromInt m `remainder` fromInt n) == m `mod` n
-    
+
 plus :: Nat -> Nat -> Nat
 plus m n
   | isZero n  = m
