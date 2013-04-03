@@ -56,9 +56,9 @@ isEven 1 = False
 isEven n = isEven (n - 2)
 
 devide :: Int -> Int -> Int
-devide n m
-  | n < m     = 0
-  | otherwise = devide (n - m) m + 1
+devide m n
+  | m < n     = 0
+  | otherwise = devide (m - n) n + 1
 
 gt :: Int -> Int -> Bool
 gt = undefined
