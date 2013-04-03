@@ -1,3 +1,6 @@
+-- % cabal install hspec
+-- % runghc 1.hs
+
 import Control.Applicative
 import Test.Hspec
 import Test.Hspec.QuickCheck
