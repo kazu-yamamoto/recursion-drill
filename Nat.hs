@@ -18,7 +18,7 @@ isZero Z = True
 isZero _ = False
 
 plus1 :: Nat -> Nat
-plus1 n = S n
+plus1 = S
 
 minus1 :: Nat -> Nat
 minus1 (S n) = n
