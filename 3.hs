@@ -14,9 +14,9 @@ main = hspec $ do
     describe "isEven" $
       prop "behaves as model" $ \(Small n) -> n >= 0
         ==> isEven n == even n
-    describe "devide" $
+    describe "divide" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 1
-        ==> devide m n == m `div` n
+        ==> divide m n == m `div` n
     describe "gt" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 0
         ==> gt m n == (m > n)
@@ -29,9 +29,9 @@ main = hspec $ do
     describe "remainder" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 1
         ==> remainder m n == m `mod` n
-    describe "devide2" $
+    describe "divide2" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 1
-        ==> devide2 m n == m `div` n
+        ==> divide2 m n == m `div` n
 
 lt :: Int -> Int -> Bool
 lt _ 0 = False
@@ -48,10 +48,10 @@ isEven 0 = True
 isEven 1 = False
 isEven n = isEven (n - 2)
 
-devide :: Int -> Int -> Int
-devide m n
+divide :: Int -> Int -> Int
+divide m n
   | m < n     = 0
-  | otherwise = devide (m - n) n + 1
+  | otherwise = divide (m - n) n + 1
 
 gt :: Int -> Int -> Bool
 gt = undefined
@@ -65,5 +65,5 @@ isOdd = undefined
 remainder :: Int -> Int -> Int
 remainder = undefined
 
-devide2 :: Int -> Int -> Int
-devide2 = undefined
+divide2 :: Int -> Int -> Int
+divide2 = undefined

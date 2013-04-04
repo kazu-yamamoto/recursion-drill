@@ -18,9 +18,9 @@ main = hspec $ do
     describe "lt" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 0
         ==> fromInt m `lt` fromInt n == (m < n)
-    describe "devide" $
+    describe "divide" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 1
-        ==> toInt (fromInt m `devide` fromInt n) == m `div` n
+        ==> toInt (fromInt m `divide` fromInt n) == m `div` n
     describe "remainder" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 1
         ==> toInt (fromInt m `remainder` fromInt n) == m `mod` n
@@ -52,10 +52,10 @@ lt m n
   | isZero m = True
   | otherwise = lt (minus1 m) (minus1 n)
 
-devide :: Nat -> Nat -> Nat
-devide m n
+divide :: Nat -> Nat -> Nat
+divide m n
   | m `lt` n  = zero
-  | otherwise = plus1 ((m `minus` n) `devide` n)
+  | otherwise = plus1 ((m `minus` n) `divide` n)
 
 remainder :: Nat -> Nat -> Nat
 remainder m n
