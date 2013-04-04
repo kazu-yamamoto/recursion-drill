@@ -1,5 +1,5 @@
 -- % cabal install hspec
--- % runghc 1.hs
+-- % runghc <this_file>
 
 import Small
 

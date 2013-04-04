@@ -30,11 +30,6 @@ plus m n
   | isZero n  = m
   | otherwise = plus1 (m `plus` minus1 n)
 
-minus :: Nat -> Nat -> Nat
-minus m n
-  | isZero n  = m
-  | otherwise = minus1 (m `minus` minus1 n)
-
 isOne :: Nat -> Bool
 isOne n
   | isZero n          = False
@@ -46,18 +41,14 @@ mul m n
   | isOne n   = m
   | otherwise = mul m (minus1 n) `plus` m
 
+minus :: Nat -> Nat -> Nat
+minus = undefined
+
 lt :: Nat -> Nat -> Bool
-lt m n
-  | isZero n = False
-  | isZero m = True
-  | otherwise = lt (minus1 m) (minus1 n)
+lt = undefined
 
 devide :: Nat -> Nat -> Nat
-devide m n
-  | m `lt` n  = zero
-  | otherwise = plus1 ((m `minus` n) `devide` n)
+devide = undefined
 
 remainder :: Nat -> Nat -> Nat
-remainder m n
-  | m `lt` n  = m
-  | otherwise = remainder (m `minus` n) n
+remainder = undefined
