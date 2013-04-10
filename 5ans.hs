@@ -13,10 +13,7 @@ main = hspec $ do
                 gcdSlow n m == gcd n m
     describe "gcdFast" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 2 && n >= 2
-        ==> if m >= n then 
-                gcdFast m n == gcd m n
-            else
-                gcdFast n m == gcd n m
+        ==> gcdFast m n == gcd m n
     describe "lcmFast" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 2 && n >= 2
         ==> lcmFast m n == lcm m n
@@ -57,9 +54,7 @@ gcdFast a 0 = a
 gcdFast a b = gcdFast b (a `mod` b)
 
 lcmFast :: Int -> Int -> Int
-lcmFast a b
-  | a >= b    = a * b `div` gcd a b
-  | otherwise = b * a `div` gcd b a
+lcmFast a b = a * b `div` gcd a b
 
 ----------------------------------------------------------------
 
