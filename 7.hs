@@ -85,7 +85,7 @@ catF = undefined
 ----------------------------------------------------------------
 
 memoCatalan2 :: Integer -> Integer
-memoCatalan2 n = memoFix catalanF2 n
+memoCatalan2 n = undefined
 
 catalanF2 :: (Integer -> Integer) -> (Integer -> Integer)
 catalanF2 = undefined
