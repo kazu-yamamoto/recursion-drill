@@ -62,8 +62,8 @@ catalan n = cat n n
 cat :: Integer -> Integer -> Integer
 cat _ 0 = 1
 cat m n
-  | m == n    = cat m (n - 1)
-  | otherwise = cat m (n - 1) + cat (m - 1) n
+  | m == n    = undefined
+  | otherwise = undefined
 
 ----------------------------------------------------------------
 
@@ -71,8 +71,8 @@ catalan2 :: Integer -> Integer
 catalan2 0 = 1
 catalan2 n = sum (zipWith (*) xs ys)
   where
-    xs = map catalan2 [0 .. n - 1]
-    ys = map catalan2 [n - 1, n - 2 .. 0]
+    xs = undefined
+    ys = undefined
 
 ----------------------------------------------------------------
 
@@ -81,4 +81,4 @@ coin 0 _      = 1
 coin _ []     = 0
 coin n ccs@(c:cs)
   | n < 0     = 0
-  | otherwise = coin n cs + coin (n - c) ccs
+  | otherwise = undefined
