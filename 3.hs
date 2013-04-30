@@ -5,65 +5,68 @@ import Small
 
 main :: IO ()
 main = hspec $ do
-    describe "lt" $
+    describe "my_lt" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 0
-        ==> lt m n == (m < n)
-    describe "lteq" $
+        ==> my_lt m n == (m < n)
+    describe "my_lteq" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 0
-        ==> lteq m n == (m <= n)
-    describe "isEven" $
+        ==> my_lteq m n == (m <= n)
+    describe "my_even" $
       prop "behaves as model" $ \(Small n) -> n >= 0
-        ==> isEven n == even n
-    describe "divide" $
+        ==> my_even n == even n
+    describe "my_divide" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 1
-        ==> divide m n == m `div` n
-    describe "gt" $
+        ==> my_divide m n == m `div` n
+    describe "my_gt" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 0
-        ==> gt m n == (m > n)
-    describe "gteq" $
+        ==> my_gt m n == (m > n)
+    describe "my_gteq" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 0
-        ==> gteq m n == (m >= n)
-    describe "isOdd" $
+        ==> my_gteq m n == (m >= n)
+    describe "my_odd" $
       prop "behaves as model" $ \(Small n) -> n >= 0
-        ==> isOdd n == odd n
-    describe "remainder" $
+        ==> my_odd n == odd n
+    describe "my_remainder" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 1
-        ==> remainder m n == m `mod` n
-    describe "divide2" $
+        ==> my_remainder m n == m `mod` n
+    describe "my_divide_iter" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 1
-        ==> divide2 m n == m `div` n
+        ==> my_divide_iter m n == m `div` n
 
-lt :: Int -> Int -> Bool
-lt _ 0 = False
-lt 0 _ = True
-lt m n = lt (m - 1) (n - 1)
+my_lt :: Integer -> Integer -> Bool
+my_lt _ 0 = False
+my_lt 0 _ = True
+my_lt m n = my_lt (m - 1) (n - 1)
 
-lteq :: Int -> Int -> Bool
-lteq 0 _ = True
-lteq _ 0 = False
-lteq m n = lteq (m - 1) (n - 1)
+my_lteq :: Integer -> Integer -> Bool
+my_lteq 0 _ = True
+my_lteq _ 0 = False
+my_lteq m n = my_lteq (m - 1) (n - 1)
 
-isEven :: Int -> Bool
-isEven 0 = True
-isEven 1 = False
-isEven n = isEven (n - 2)
+my_even :: Integer -> Bool
+my_even 0 = True
+my_even 1 = False
+my_even n = my_even (n - 2)
 
-divide :: Int -> Int -> Int
-divide m n
+my_divide :: Integer -> Integer -> Integer
+my_divide m n
   | m < n     = 0
-  | otherwise = divide (m - n) n + 1
+  | otherwise = my_divide (m - n) n + 1
 
-gt :: Int -> Int -> Bool
-gt = undefined
+my_gt :: Integer -> Integer -> Bool
+my_gt = undefined
 
-gteq :: Int -> Int -> Bool
-gteq = undefined
+my_gteq :: Integer -> Integer -> Bool
+my_gteq = undefined
 
-isOdd :: Int -> Bool
-isOdd = undefined
+my_odd :: Integer -> Bool
+my_odd = undefined
 
-remainder :: Int -> Int -> Int
-remainder = undefined
+my_remainder :: Integer -> Integer -> Integer
+my_remainder = undefined
 
-divide2 :: Int -> Int -> Int
-divide2 = undefined
+my_divide_iter :: Integer -> Integer -> Integer
+my_divide_iter x y = iter x y undefined
+  where
+    iter :: Integer -> Integer -> Integer -> Integer
+    iter = undefined
