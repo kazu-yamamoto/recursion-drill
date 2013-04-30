@@ -7,25 +7,25 @@ import Test.Hspec
 
 main :: IO ()
 main = hspec $ do
-    describe "memoFib" $
+    describe "my_fib_memo" $
         it "calculates the same results of model" $ do
             let xs = [1..10]
-            map memoFib xs `shouldBe` map fibModel xs
-    describe "memoCatalan" $
+            map my_fib_memo xs `shouldBe` map fibModel xs
+    describe "my_catalan_memo" $
         it "calculates the same results of formula" $ do
             let xs = [1..10]
-            map memoCatalan xs `shouldBe` map catalanFormula xs
-    describe "memoCatalan2" $
+            map my_catalan_memo xs `shouldBe` map catalanFormula xs
+    describe "my_catalan2_memo" $
         it "calculates the same results of formula" $ do
             let xs = [1..10]
-            map memoCatalan2 xs `shouldBe` map catalanFormula xs
-    describe "memoCoin" $ do
+            map my_catalan2_memo xs `shouldBe` map catalanFormula xs
+    describe "my_coin_memo" $ do
         it "calculates the same results of America coins " $ do
             let xs = [1..150]
-            map (flip memoCoin [1,5,10,25,50]) xs `shouldBe` map usCoin xs
+            map (flip my_coin_memo [1,5,10,25,50]) xs `shouldBe` map usCoin xs
         it "calculates the same results of Japanese coins " $ do
             let xs = [1..150]
-            map (flip memoCoin [1,5,10,50,100,500]) xs `shouldBe` map jaCoin xs
+            map (flip my_coin_memo [1,5,10,50,100,500]) xs `shouldBe` map jaCoin xs
 
 ----------------------------------------------------------------
 
@@ -68,32 +68,34 @@ jaCoin  n         = jaCoinE n + jaCoin  (n - 500)
 
 ----------------------------------------------------------------
 
-memoFib :: Integer -> Integer
-memoFib = undefined
-    
-fibF :: (Integer -> Integer) -> (Integer -> Integer)
-fibF = undefined
+my_fib_memo :: Integer -> Integer
+my_fib_memo x = memoFix fibF x
+  where
+    fibF :: (Integer -> Integer) -> (Integer -> Integer)
+    fibF _ 0 = 0
+    fibF _ 1 = 1
+    fibF f n = f (n - 2) + f (n - 1)
 
 ----------------------------------------------------------------
 
-memoCatalan :: Integer -> Integer
-memoCatalan = undefined
-
-catF :: (Integer -> Integer -> Integer) -> (Integer -> Integer -> Integer)
-catF = undefined
-
-----------------------------------------------------------------
-
-memoCatalan2 :: Integer -> Integer
-memoCatalan2 n = undefined
-
-catalanF2 :: (Integer -> Integer) -> (Integer -> Integer)
-catalanF2 = undefined
+my_catalan_memo :: Integer -> Integer
+my_catalan_memo x = undefined
+  where
+    catF :: (Integer -> Integer -> Integer) -> (Integer -> Integer -> Integer)
+    catF = undefined
 
 ----------------------------------------------------------------
 
-memoCoin :: Integer -> [Integer] -> Integer
-memoCoin = undefined
+my_catalan2_memo :: Integer -> Integer
+my_catalan2_memo x = undefined
+  where
+    catF :: (Integer -> Integer) -> (Integer -> Integer)
+    catF = undefined
 
-coinF :: (Integer -> [Integer] -> Integer) -> (Integer -> [Integer] -> Integer)
-coinF = undefined
+----------------------------------------------------------------
+
+my_coin_memo :: Integer -> [Integer] -> Integer
+my_coin_memo x = undefined
+  where
+    coinF :: (Integer -> [Integer] -> Integer) -> (Integer -> [Integer] -> Integer)
+    coinF = undefined
