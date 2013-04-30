@@ -10,8 +10,7 @@ import Test.Hspec
 import Test.Hspec.QuickCheck
 import Test.QuickCheck
 
-newtype Small = Small Int deriving Show
+newtype Small = Small Integer deriving Show
 
 instance Arbitrary Small where
     arbitrary = Small . (`mod` 10) <$> arbitrary
-

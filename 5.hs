@@ -140,4 +140,4 @@ my_even_m2 n = undefined
 
 my_odd_m2 :: Integer -> Bool
 my_odd_m2 1 = True
-my_odd_m2 n = not (my_even_m2 n)
+my_odd_m2 n = undefined
