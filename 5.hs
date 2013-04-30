@@ -5,110 +5,139 @@ import Small
 
 main :: IO ()
 main = hspec $ do
-    describe "gcdSlow" $
+    describe "my_gcd" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 2 && n >= 2
         ==> if m >= n then 
-                gcdSlow m n == gcd m n
+                my_gcd m n == gcd m n
             else
-                gcdSlow n m == gcd n m
-    describe "gcdFast" $
+                my_gcd n m == gcd n m
+    describe "my_gcd_fast" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 2 && n >= 2
-        ==> gcdFast m n == gcd m n
-    describe "lcmFast" $
+        ==> my_gcd_fast m n == gcd m n
+    describe "my_lcm_fast" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 2 && n >= 2
-        ==> lcmFast m n == lcm m n
-    describe "power" $
+        ==> my_lcm_fast m n == lcm m n
+    describe "my_power" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 1 && n >= 0
-        ==> power m n == m ^ n
-    describe "powerIter" $
+        ==> my_power m n == m ^ n
+    describe "my_power_iter" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 1 && n >= 0
-        ==> powerIter m n == m ^ n
-    describe "powerFast" $
+        ==> my_power_iter m n == m ^ n
+    describe "my_power_fast" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 1 && n >= 0
-        ==> powerFast m n == m ^ n
-    describe "powerFastIter" $
+        ==> my_power_fast m n == m ^ n
+    describe "my_power_fast_iter" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 1 && n >= 0
-        ==> powerFastIter m n == m ^ n
-    describe "fibFast" $
+        ==> my_power_fast_iter m n == m ^ n
+    describe "my_fib" $
       prop "behaves as model" $ \(Small n) -> n >= 0
-        ==> fibFast n == fibModel n
-    describe "isEven" $
+        ==> my_fib n == fibModel n
+    describe "my_fib_iter" $
       prop "behaves as model" $ \(Small n) -> n >= 0
-        ==> isEven n == even n
-    describe "isOdd" $
+        ==> my_fib_iter n == fibModel n
+    describe "my_even_m" $
       prop "behaves as model" $ \(Small n) -> n >= 0
-        ==> isOdd n == odd n
+        ==> my_even_m n == even n
+    describe "my_odd_m" $
+      prop "behaves as model" $ \(Small n) -> n >= 0
+        ==> my_odd_m n == odd n
+    describe "my_even_m2" $
+      prop "behaves as model" $ \(Small n) -> n >= 0
+        ==> my_even_m2 n == even n
+    describe "my_odd_m2" $
+      prop "behaves as model" $ \(Small n) -> n >= 0
+        ==> my_odd_m2 n == odd n
 
 ----------------------------------------------------------------
 
-gcdSlow :: Int -> Int -> Int
-gcdSlow a 0 = a
-gcdSlow a b
-  | c >= b    = gcdSlow c b
-  | otherwise = gcdSlow b c
+my_gcd :: Integer -> Integer -> Integer
+my_gcd a 0 = a
+my_gcd a b
+  | c >= b    = my_gcd c b
+  | otherwise = my_gcd b c
   where
     c = a - b
 
-gcdFast :: Int -> Int -> Int
-gcdFast = undefined
+my_gcd_fast :: Integer -> Integer -> Integer
+my_gcd_fast = undefined
 
-lcmFast :: Int -> Int -> Int
-lcmFast = undefined
-
-----------------------------------------------------------------
-
-power :: Int -> Int -> Int
-power _ 0 = 1
-power m n = power m (n - 1) * m
-
-powerFast :: Int -> Int -> Int
-powerFast _ 0 = 1
-powerFast m n
-  | odd n     = powerFast undefined undefined * m
-  | otherwise = powerFast undefined undefined
-
-powerIter :: Int -> Int -> Int
-powerIter m n = powerIter' m n 1
-
-powerIter' :: Int -> Int -> Int -> Int
-powerIter' _ 0 acc = acc
-powerIter' m n acc = powerIter' m (n - 1) (acc * m)
-
-powerFastIter :: Int -> Int -> Int
-powerFastIter m n = powerFastIter' m n 1
-
-powerFastIter' :: Int -> Int -> Int -> Int
-powerFastIter' _ 0 acc = acc
-powerFastIter' m n acc
-  | odd n     = powerFastIter' undefined undefined undefined
-  | otherwise = powerFastIter' undefined undefined undefined
+my_lcm_fast :: Integer -> Integer -> Integer
+my_lcm_fast = undefined
 
 ----------------------------------------------------------------
 
-fib :: Int -> Integer
-fib 0 = 0
-fib 1 = 1
-fib n = fib (n - 2) + fib (n - 1)
+my_power :: Integer -> Integer -> Integer
+my_power _ 0 = 1
+my_power m n = my_power m (n - 1) * m
 
-fibFast :: Int -> Integer
-fibFast n = fibFast' n 0 1
+my_power_fast :: Integer -> Integer -> Integer
+my_power_fast _ 0 = 1
+my_power_fast m n
+  | odd n     = my_power_fast undefined undefined * m
+  | otherwise = my_power_fast undefined undefined
 
-fibFast' :: Int -> Integer -> Integer -> Integer
-fibFast' 0 x _ = x
-fibFast' n x y = fibFast' undefined undefined undefined
+my_power_iter :: Integer -> Integer -> Integer
+my_power_iter x y = iter x y 1
+  where
+    iter :: Integer -> Integer -> Integer -> Integer
+    iter _ 0 acc = acc
+    iter m n acc = iter m (n - 1) (acc * m)
 
-fibModel :: Int -> Integer
-fibModel n = fibs !! n
-    
+my_power_fast_iter :: Integer -> Integer -> Integer
+my_power_fast_iter x y = iter x y 1
+  where
+    iter :: Integer -> Integer -> Integer -> Integer
+    iter _ 0 acc = acc
+    iter m n acc
+      | odd n     = iter undefined undefined undefined
+      | otherwise = iter undefined undefined undefined
+
+----------------------------------------------------------------
+
+my_fib :: Integer -> Integer
+my_fib 0 = 0
+my_fib 1 = 1
+my_fib n = my_fib (n - 2) + my_fib (n - 1)
+
+my_fib_iter :: Integer -> Integer
+my_fib_iter a = iter a 0 1
+  where
+    iter :: Integer -> Integer -> Integer -> Integer
+    iter 0 x _ = x
+    iter n x y = iter undefined undefined undefined
+
+fibModel :: Integer -> Integer
+fibModel n = fibs !! fromInteger n
+
 fibs :: [Integer]
 fibs = 0 : 1 : zipWith (+) fibs (tail fibs)
 
 ----------------------------------------------------------------
 
-isEven :: Int -> Bool
-isEven 0 = True
-isEven n = isOdd (n - 1)
+my_even_m :: Integer -> Bool
+my_even_m 0 = True
+my_even_m n = my_odd_m (n - 1)
 
-isOdd :: Int -> Bool
-isOdd 0 = False
-isOdd n = isEven (n - 1)
+my_odd_m :: Integer -> Bool
+my_odd_m 0 = False
+my_odd_m n = my_even_m (n - 1)
+
+----------------------------------------------------------------
+
+my_even_m :: Integer -> Bool
+my_even_m 0 = True
+my_even_m n = my_odd_m (n - 1)
+
+my_odd_m :: Integer -> Bool
+my_odd_m 0 = False
+my_odd_m n = my_even_m (n - 1)
+
+----------------------------------------------------------------
+
+my_even_m2 :: Integer -> Bool
+my_even_m2 0 = True
+my_even_m2 n = undefined
+
+my_odd_m2 :: Integer -> Bool
+my_odd_m2 1 = True
+my_odd_m2 n = not (my_even_m2 n)
