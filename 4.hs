@@ -6,49 +6,49 @@ import Small
 
 main :: IO ()
 main = hspec $ do
-    describe "plus" $
+    describe "my_plus_n" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 0
-        ==> toInt (fromInt m `plus` fromInt n) == m + n
-    describe "minus" $
+        ==> my_from_n (my_to_n m `my_plus_n` my_to_n n) == m + n
+    describe "my_minus_n" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= n && n >= 0
-        ==> toInt (fromInt m `minus` fromInt n) == m - n
-    describe "mul" $
+        ==> my_from_n (my_to_n m `my_minus_n` my_to_n n) == m - n
+    describe "my_mul_n" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 1 && n >= 1
-        ==> toInt (fromInt m `mul` fromInt n) == m * n
-    describe "lt" $
+        ==> my_from_n (my_to_n m `my_mul_n` my_to_n n) == m * n
+    describe "my_lt_n" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 0
-        ==> fromInt m `lt` fromInt n == (m < n)
-    describe "divide" $
+        ==> my_to_n m `my_lt_n` my_to_n n == (m < n)
+    describe "my_divide_n" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 1
-        ==> toInt (fromInt m `divide` fromInt n) == m `div` n
-    describe "remainder" $
+        ==> my_from_n (my_to_n m `my_divide_n` my_to_n n) == m `div` n
+    describe "my_remainder_n" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 1
-        ==> toInt (fromInt m `remainder` fromInt n) == m `mod` n
+        ==> my_from_n (my_to_n m `my_remainder_n` my_to_n n) == m `mod` n
 
-plus :: Nat -> Nat -> Nat
-plus m n
-  | isZero n  = m
-  | otherwise = plus1 (m `plus` minus1 n)
+my_plus_n :: Nat -> Nat -> Nat
+my_plus_n m n
+  | my_isZero_n n = m
+  | otherwise     = my_plus1_n (m `my_plus_n` my_minus1_n n)
 
-isOne :: Nat -> Bool
-isOne n
-  | isZero n          = False
-  | isZero (minus1 n) = True
-  | otherwise         = False
+my_isOne_n :: Nat -> Bool
+my_isOne_n n
+  | my_isZero_n n               = False
+  | my_isZero_n (my_minus1_n n) = True
+  | otherwise                   = False
 
-mul :: Nat -> Nat -> Nat
-mul m n
-  | isOne n   = m
-  | otherwise = mul m (minus1 n) `plus` m
+my_mul_n :: Nat -> Nat -> Nat
+my_mul_n m n
+  | my_isOne_n n = m
+  | otherwise    = my_mul_n m (my_minus1_n n) `my_plus_n` m
 
-minus :: Nat -> Nat -> Nat
-minus = undefined
+my_minus_n :: Nat -> Nat -> Nat
+my_minus_n = undefined
 
-lt :: Nat -> Nat -> Bool
-lt = undefined
+my_lt_n :: Nat -> Nat -> Bool
+my_lt_n = undefined
 
-divide :: Nat -> Nat -> Nat
-divide = undefined
+my_divide_n :: Nat -> Nat -> Nat
+my_divide_n = undefined
 
-remainder :: Nat -> Nat -> Nat
-remainder = undefined
+my_remainder_n :: Nat -> Nat -> Nat
+my_remainder_n = undefined
