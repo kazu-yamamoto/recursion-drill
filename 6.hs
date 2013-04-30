@@ -5,21 +5,21 @@ import Test.Hspec
 
 main :: IO ()
 main = hspec $ do
-    describe "catalan" $
+    describe "my_catalan" $
         it "calculates the same results of formula" $ do
             let xs = [1..10]
-            map catalan xs `shouldBe` map catalanFormula xs
-    describe "catalan2" $
+            map my_catalan xs `shouldBe` map catalanFormula xs
+    describe "my_catalan2" $
         it "calculates the same results of formula" $ do
             let xs = [1..10]
-            map catalan2 xs `shouldBe` map catalanFormula xs
-    describe "coin" $ do
+            map my_catalan2 xs `shouldBe` map catalanFormula xs
+    describe "my_coin" $ do
         it "calculates the same results of America coins " $ do
             let xs = [1..150]
-            map (flip coin [1,5,10,25,50]) xs `shouldBe` map usCoin xs
+            map (flip my_coin [1,5,10,25,50]) xs `shouldBe` map usCoin xs
         it "calculates the same results of Japanese coins " $ do
             let xs = [1..150]
-            map (flip coin [1,5,10,50,100,500]) xs `shouldBe` map jaCoin xs
+            map (flip my_coin [1,5,10,50,100,500]) xs `shouldBe` map jaCoin xs
 
 ----------------------------------------------------------------
 
@@ -56,29 +56,29 @@ jaCoin  n         = jaCoinE n + jaCoin  (n - 500)
 
 ----------------------------------------------------------------
 
-catalan :: Integer -> Integer
-catalan n = cat n n
-
-cat :: Integer -> Integer -> Integer
-cat _ 0 = 1
-cat m n
-  | m == n    = undefined
-  | otherwise = undefined
+my_catalan :: Integer -> Integer
+my_catalan x = cat x x
+  where
+    cat :: Integer -> Integer -> Integer
+    cat _ 0 = 1
+    cat m n
+      | m == n    = undefined
+      | otherwise = undefined
 
 ----------------------------------------------------------------
 
-catalan2 :: Integer -> Integer
-catalan2 0 = 1
-catalan2 n = sum (zipWith (*) xs ys)
+my_catalan2 :: Integer -> Integer
+my_catalan2 0 = 1
+my_catalan2 n = sum (zipWith (*) xs ys)
   where
     xs = undefined
     ys = undefined
 
 ----------------------------------------------------------------
 
-coin :: Integer -> [Integer] -> Integer
-coin 0 _      = 1
-coin _ []     = 0
-coin n ccs@(c:cs)
+my_coin :: Integer -> [Integer] -> Integer
+my_coin 0 _   = 1
+my_coin _ []  = 0
+my_coin n ccs@(c:cs)
   | n < 0     = 0
   | otherwise = undefined
