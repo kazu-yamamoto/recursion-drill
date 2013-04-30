@@ -5,42 +5,42 @@ import Small
 
 main :: IO ()
 main = hspec $ do
-    describe "soap" $
+    describe "my_soap" $
       prop "behaves as model" $ \(Small n) -> n >= 0
-        ==> soap n == sum [0..n]
-    describe "fact" $
+        ==> my_soap n == sum [0..n]
+    describe "my_fact" $
       prop "behaves as model" $ \(Small n) -> n >= 1
-        ==> fact n == product [1..n]
-    describe "mul" $
+        ==> my_fact n == product [1..n]
+    describe "my_mul" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 1 && n >= 1
-        ==> mul m n == m * n
-    describe "plus" $
+        ==> my_mul m n == m * n
+    describe "my_plus" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 0
-        ==> plus m n == m + n
-    describe "minus" $
+        ==> my_plus m n == m + n
+    describe "my_minus" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 0 && n >= 0
-        ==> minus m n == m - n
-    describe "power" $
-      prop "behaves as model" $ \(Small m) (Small n) -> m >= 1 && n >= 1
-        ==> power m n == m ^ n
+        ==> my_minus m n == m - n
+    describe "my_power" $
+      prop "behaves as model" $ \(Small m) (Small n) -> m >= 1 && n >= 0
+        ==> my_power m n == m ^ n
 
-soap :: Int -> Int
-soap 0 = 0
-soap n = soap (n-1) + n
+my_soap :: Integer -> Integer
+my_soap 0 = 0
+my_soap n = my_soap (n-1) + n
 
-fact :: Int -> Int
-fact 1 = 1
-fact n = fact (n - 1) * n
+my_fact :: Integer -> Integer
+my_fact 1 = 1
+my_fact n = my_fact (n - 1) * n
 
-mul :: Int -> Int -> Int
-mul m 1 = m
-mul m n = mul m (n - 1) + m
+my_mul :: Integer -> Integer -> Integer
+my_mul m 1 = m
+my_mul m n = my_mul m (n - 1) + m
 
-plus :: Int -> Int -> Int
-plus = undefined
+my_plus :: Integer -> Integer -> Integer
+my_plus = undefined
 
-minus :: Int -> Int -> Int
-minus = undefined
+my_minus :: Integer -> Integer -> Integer
+my_minus = undefined
 
-power :: Int -> Int -> Int
-power = undefined
+my_power :: Integer -> Integer -> Integer
+my_power = undefined
