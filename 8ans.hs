@@ -40,6 +40,12 @@ main = hspec $ do
     describe "my_and" $
         prop "behaves like model" $ \(xs :: [Bool]) ->
            my_and xs `shouldBe` and xs
+    describe "my_and_bad_iter" $
+        prop "behaves like model" $ \(xs :: [Bool]) ->
+           my_and_bad_iter xs `shouldBe` and xs
+    describe "my_and_iter" $
+        prop "behaves like model" $ \(xs :: [Bool]) ->
+           my_and_iter xs `shouldBe` and xs
     describe "my_or" $
         prop "behaves like model" $ \(xs :: [Bool]) ->
            my_or xs `shouldBe` or xs
@@ -146,6 +152,22 @@ my_minimum_iter (a:as) = iter as a
 my_and :: [Bool] -> Bool
 my_and []     = True
 my_and (x:xs) = x && my_and xs
+
+my_and_bad_iter :: [Bool] -> Bool
+my_and_bad_iter as = iter as True
+  where
+    iter []     acc = acc
+    iter (x:xs) acc = iter xs (x && acc)
+
+my_and_iter :: [Bool] -> Bool
+my_and_iter as = iter as True
+  where
+    iter []     acc = acc
+    iter (x:xs) acc
+      | acc' == False = False
+      | otherwise     = iter xs acc'
+      where
+        acc' = x && acc
 
 my_or :: [Bool] -> Bool
 my_or []     = False
