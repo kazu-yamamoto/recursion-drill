@@ -84,44 +84,62 @@ my_length_iter as = iter as 0
 ----------------------------------------------------------------
 
 my_sum :: [Integer] -> Integer
-my_sum = undefined
+my_sum []     = 0
+my_sum (x:xs) = my_sum xs + x
 
 my_sum_iter :: [Integer] -> Integer
-my_sum_iter as = iter as undefined
+my_sum_iter as = iter as 0
   where
-    iter = undefined
+    iter []     acc = acc
+    iter (x:xs) acc = iter xs (acc + x)
 
 my_product :: [Integer] -> Integer
-my_product = undefined
+my_product []     = 1
+my_product (x:xs) = my_product xs * x
 
 my_product_iter :: [Integer] -> Integer
-my_product_iter as = iter as undefined
+my_product_iter as = iter as 1
   where
-    iter = undefined
+    iter []     acc = acc
+    iter (x:xs) acc = iter xs (acc * x)
 
 ----------------------------------------------------------------
 
 my_maximum :: Ord a => [a] -> a
 my_maximum []  = error "my_maximum"
 my_maximum [x] = x
-my_maximum (x:xs) = undefined
+my_maximum (x:xs)
+  | x > y      = x
+  | otherwise  = y
+  where
+    y = my_maximum xs
 
 my_maximum_iter :: Ord a => [a] -> a
 my_maximum_iter []  = error "my_maximum_iter"
-my_maximum_iter (a:as) = iter undefined undefined
+my_maximum_iter (a:as) = iter as a
   where
-    iter = undefined
+    iter []     acc = acc
+    iter (x:xs) acc
+      | x > acc     = iter xs x
+      | otherwise   = iter xs acc
 
 my_minimum :: Ord a => [a] -> a
 my_minimum []  = error "my_minimum"
 my_minimum [x] = x
-my_minimum (x:xs) = undefined
+my_minimum (x:xs)
+  | y < x      = y
+  | otherwise  = x
+  where
+    y = my_minimum xs
 
 my_minimum_iter :: Ord a => [a] -> a
 my_minimum_iter []  = error "my_minimum_iter"
-my_minimum_iter (a:as) = iter undefined undefined
+my_minimum_iter (a:as) = iter as a
   where
-    iter = undefined
+    iter []     acc = acc
+    iter (x:xs) acc
+      | x < acc     = iter xs x
+      | otherwise   = iter xs acc
 
 ----------------------------------------------------------------
 
@@ -130,10 +148,12 @@ my_and []     = True
 my_and (x:xs) = x && my_and xs
 
 my_or :: [Bool] -> Bool
-my_or = undefined
+my_or []     = False
+my_or (x:xs) = x || my_or xs
 
 my_all :: (a -> Bool) -> [a] -> Bool
-my_all = undefined
+my_all _ []     = True
+my_all p (x:xs) = p x && my_all p xs
 
 ----------------------------------------------------------------
 
@@ -144,17 +164,23 @@ my_elem k (x:xs)
   | otherwise = my_elem k xs
 
 my_find :: (a -> Bool) -> [a] -> Maybe a
-my_find = undefined
+my_find _ [] = Nothing
+my_find p (x:xs)
+  | p x       = Just x
+  | otherwise = my_find p xs
 
 my_lookup :: Eq k => k -> [(k,v)] -> Maybe v
-my_lookup = undefined
+my_lookup _ []           = Nothing
+my_lookup key ((k,v):kvs) 
+    | key == k           = Just v
+    | otherwise          = my_lookup key kvs
 
 ----------------------------------------------------------------
 
 my_foldr :: (a -> b -> b) -> b -> [a] -> b
 my_foldr _ ini []     = ini
-my_foldr f ini (x:xs) = undefined
+my_foldr f ini (x:xs) = f x (my_foldr f ini xs)
 
 my_foldl :: (a -> b -> a) -> a -> [b] -> a
 my_foldl _ ini []     = ini
-my_foldl f ini (x:xs) = undefined
+my_foldl f ini (x:xs) = my_foldl f (f ini x) xs
