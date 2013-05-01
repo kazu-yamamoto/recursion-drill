@@ -49,11 +49,19 @@ main = hspec $ do
     describe "my_or" $
         prop "behaves like model" $ \(xs :: [Bool]) ->
            my_or xs `shouldBe` or xs
+    describe "my_or_iter" $
+        prop "behaves like model" $ \(xs :: [Bool]) ->
+           my_or_iter xs `shouldBe` or xs
     describe "my_all" $
         prop "behaves like model" $ \(xs :: [Integer]) -> do
            my_all even xs `shouldBe` all even xs
            my_all odd  xs `shouldBe` all odd  xs
            my_all (>1) xs `shouldBe` all (>1) xs
+    describe "my_all_iter" $
+        prop "behaves like model" $ \(xs :: [Integer]) -> do
+           my_all_iter even xs `shouldBe` all even xs
+           my_all_iter odd  xs `shouldBe` all odd  xs
+           my_all_iter (>1) xs `shouldBe` all (>1) xs
     describe "my_elem" $
         prop "behaves like model" $ \(k :: Integer) (xs :: [Integer]) ->
            my_elem k xs `shouldBe` elem k xs
@@ -160,22 +168,30 @@ my_and_bad_iter as = iter as True
     iter (x:xs) acc = iter xs (x && acc)
 
 my_and_iter :: [Bool] -> Bool
-my_and_iter as = iter as True
-  where
-    iter []     acc = acc
-    iter (x:xs) acc
-      | acc' == False = False
-      | otherwise     = iter xs acc'
-      where
-        acc' = x && acc
+my_and_iter [] = True
+my_and_iter (x:xs)
+  | x          = my_and_iter xs
+  | otherwise  = False
 
 my_or :: [Bool] -> Bool
 my_or []     = False
 my_or (x:xs) = x || my_or xs
 
+my_or_iter :: [Bool] -> Bool
+my_or_iter [] = False
+my_or_iter (x:xs)
+  | x         = True
+  | otherwise = my_or_iter xs
+
 my_all :: (a -> Bool) -> [a] -> Bool
 my_all _ []     = True
 my_all p (x:xs) = p x && my_all p xs
+
+my_all_iter :: (a -> Bool) -> [a] -> Bool
+my_all_iter _ []     = True
+my_all_iter p (x:xs)
+  | p x       = my_all_iter p xs
+  | otherwise = False
 
 ----------------------------------------------------------------
 
