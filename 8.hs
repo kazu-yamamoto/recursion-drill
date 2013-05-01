@@ -188,5 +188,5 @@ my_foldr _ ini []     = ini
 my_foldr f ini (x:xs) = undefined
 
 my_foldl :: (a -> b -> a) -> a -> [b] -> a
-my_foldl _ ini []     = ini
-my_foldl f ini (x:xs) = undefined
+my_foldl _ acc []     = acc
+my_foldl f acc (x:xs) = undefined
