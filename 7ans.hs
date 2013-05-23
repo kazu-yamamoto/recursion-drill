@@ -1,3 +1,5 @@
+{-# LANGUAGE TemplateHaskell #-}
+
 -- % cabal install memoize
 -- % cabal install hspec
 -- % runghc <this_file>
@@ -40,31 +42,31 @@ catalanFormula n = bang (2 * n) `div` bang (n + 1) `div` bang n
   where
     bang x = product [1..x]
 
-usCoinA,usCoinB,usCoinC,usCoinD,usCoin :: Integer -> Integer
-usCoinA n | n < 0 = 0
-usCoinA _         = 1
-usCoinB n | n < 0 = 0
-usCoinB n         = usCoinA n + usCoinB (n - 5)
-usCoinC n | n < 0 = 0
-usCoinC n         = usCoinB n + usCoinC (n - 10)
-usCoinD n | n < 0 = 0
-usCoinD n         = usCoinC n + usCoinD (n - 25)
-usCoin  n | n < 0 = 0
-usCoin  n         = usCoinD n + usCoin  (n - 50)
+----------------------------------------------------------------
 
-jaCoinA,jaCoinB,jaCoinC,jaCoinD,jaCoinE,jaCoin :: Integer -> Integer
-jaCoinA n | n < 0 = 0
-jaCoinA _         = 1
-jaCoinB n | n < 0 = 0
-jaCoinB n         = jaCoinA n + jaCoinB (n - 5)
-jaCoinC n | n < 0 = 0
-jaCoinC n         = jaCoinB n + jaCoinC (n - 10)
-jaCoinD n | n < 0 = 0
-jaCoinD n         = jaCoinC n + jaCoinD (n - 50)
-jaCoinE n | n < 0 = 0
-jaCoinE n         = jaCoinD n + jaCoinE (n - 100)
-jaCoin  n | n < 0 = 0
-jaCoin  n         = jaCoinE n + jaCoin  (n - 500)
+usCoin :: Integer -> Integer
+usCoin n = memoFix usCoinF (E,n)
+
+usCoinF :: ((FunID, Integer) -> Integer) -> ((FunID, Integer) -> Integer)
+usCoinF _ (_,n) | n < 0 = 0
+usCoinF _ (A,_)         = 1
+usCoinF f (B,n)         = f (A,n) + f (B,n-5)
+usCoinF f (C,n)         = f (B,n) + f (C,n-10)
+usCoinF f (D,n)         = f (C,n) + f (D,n-25)
+usCoinF f (E,n)         = f (D,n) + f (E,n-50)
+usCoinF _ _             = error "usCoinF"
+
+jaCoin :: Integer -> Integer
+jaCoin n = memoFix jaCoinF (E,n)
+
+jaCoinF :: ((FunID, Integer) -> Integer) -> ((FunID, Integer) -> Integer)
+jaCoinF _ (_,n) | n < 0 = 0
+jaCoinF _ (A,_)         = 1
+jaCoinF f (B,n)         = f (A,n) + f (B,n-5)
+jaCoinF f (C,n)         = f (B,n) + f (C,n-10)
+jaCoinF f (D,n)         = f (C,n) + f (D,n-50)
+jaCoinF f (E,n)         = f (D,n) + f (E,n-100)
+jaCoinF f (F,n)         = f (E,n) + f (F,n-500)
 
 ----------------------------------------------------------------
 
@@ -102,11 +104,16 @@ my_catalan2_memo x = memoFix catF x
 ----------------------------------------------------------------
 
 my_coin_memo :: Integer -> [Integer] -> Integer
-my_coin_memo x = memoFix coinF x
+my_coin_memo x xs = memoFix coinF (x,xs)
   where
-    coinF :: (Integer -> [Integer] -> Integer) -> (Integer -> [Integer] -> Integer)
-    coinF _ 0 _   = 1
-    coinF _ _ []  = 0
-    coinF f n ccs@(c:cs)
+    coinF :: ((Integer,[Integer]) -> Integer) -> ((Integer,[Integer]) -> Integer)
+    coinF _ (0,_)  = 1
+    coinF _ (_,[]) = 0
+    coinF f (n,ccs@(c:cs))
       | n < 0     = 0
-      | otherwise = f n cs + f (n - c) ccs
+      | otherwise = f (n,cs) + f ((n - c),ccs)
+
+----------------------------------------------------------------
+
+data FunID = A | B | C | D | E | F deriving (Eq, Ord, Enum)
+deriveMemoizable ''FunID
