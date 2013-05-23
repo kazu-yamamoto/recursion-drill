@@ -7,28 +7,6 @@
 import Data.Function.Memoize
 import Test.Hspec
 
-main :: IO ()
-main = hspec $ do
-    describe "my_fib_memo" $
-        it "calculates the same results of model" $ do
-            let xs = [1..10]
-            map my_fib_memo xs `shouldBe` map fibModel xs
-    describe "my_catalan_memo" $
-        it "calculates the same results of formula" $ do
-            let xs = [1..10]
-            map my_catalan_memo xs `shouldBe` map catalanFormula xs
-    describe "my_catalan2_memo" $
-        it "calculates the same results of formula" $ do
-            let xs = [1..10]
-            map my_catalan2_memo xs `shouldBe` map catalanFormula xs
-    describe "my_coin_memo" $ do
-        it "calculates the same results of America coins " $ do
-            let xs = [1..150]
-            map (flip my_coin_memo [1,5,10,25,50]) xs `shouldBe` map usCoin xs
-        it "calculates the same results of Japanese coins " $ do
-            let xs = [1..150]
-            map (flip my_coin_memo [1,5,10,50,100,500]) xs `shouldBe` map jaCoin xs
-
 ----------------------------------------------------------------
 
 fibModel :: Integer -> Integer
@@ -43,6 +21,9 @@ catalanFormula n = bang (2 * n) `div` bang (n + 1) `div` bang n
     bang x = product [1..x]
 
 ----------------------------------------------------------------
+
+data FunID = A | B | C | D | E | F deriving (Eq, Ord, Enum)
+deriveMemoizable ''FunID
 
 usCoin :: Integer -> Integer
 usCoin n = memoFix usCoinF (E,n)
@@ -115,5 +96,24 @@ my_coin_memo x xs = memoFix coinF (x,xs)
 
 ----------------------------------------------------------------
 
-data FunID = A | B | C | D | E | F deriving (Eq, Ord, Enum)
-deriveMemoizable ''FunID
+main :: IO ()
+main = hspec $ do
+    describe "my_fib_memo" $
+        it "calculates the same results of model" $ do
+            let xs = [1..10]
+            map my_fib_memo xs `shouldBe` map fibModel xs
+    describe "my_catalan_memo" $
+        it "calculates the same results of formula" $ do
+            let xs = [1..10]
+            map my_catalan_memo xs `shouldBe` map catalanFormula xs
+    describe "my_catalan2_memo" $
+        it "calculates the same results of formula" $ do
+            let xs = [1..10]
+            map my_catalan2_memo xs `shouldBe` map catalanFormula xs
+    describe "my_coin_memo" $ do
+        it "calculates the same results of America coins " $ do
+            let xs = [1..150]
+            map (flip my_coin_memo [1,5,10,25,50]) xs `shouldBe` map usCoin xs
+        it "calculates the same results of Japanese coins " $ do
+            let xs = [1..150]
+            map (flip my_coin_memo [1,5,10,50,100,500]) xs `shouldBe` map jaCoin xs
