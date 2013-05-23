@@ -9,7 +9,7 @@ my_fib_unsafe :: Integer -> Integer
 my_fib_unsafe a = unsafePerformIO $ do
     ref <- newIORef $ M.fromList [(0,0),(1,1)]
     fib a ref
-  where    
+  where
     fib :: Integer -> IORef (Map Integer Integer) -> IO Integer
     fib n ref = do
         memo <- readIORef ref
@@ -26,7 +26,7 @@ my_fib_io :: Integer -> IO Integer
 my_fib_io a = do
     ref <- newIORef $ M.fromList [(0,0),(1,1)]
     fib a ref
-  where    
+  where
     fib :: Integer -> IORef (Map Integer Integer) -> IO Integer
     fib n ref = do
         memo <- readIORef ref

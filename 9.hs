@@ -44,7 +44,7 @@ main = hspec $ do
 ----------------------------------------------------------------
 
 my_reverse :: [a] -> [a]
-my_reverse []     = [] 
+my_reverse []     = []
 my_reverse (x:xs) = my_reverse xs ++ [x]
 
 my_reverse_iter :: [a] -> [a]

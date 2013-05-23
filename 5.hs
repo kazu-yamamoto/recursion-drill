@@ -7,7 +7,7 @@ main :: IO ()
 main = hspec $ do
     describe "my_gcd" $
       prop "behaves as model" $ \(Small m) (Small n) -> m >= 2 && n >= 2
-        ==> if m >= n then 
+        ==> if m >= n then
                 my_gcd m n == gcd m n
             else
                 my_gcd n m == gcd n m

@@ -31,7 +31,7 @@ main = hspec $ do
 
 fibModel :: Integer -> Integer
 fibModel n = fibs !! fromInteger n
-    
+
 fibs :: [Integer]
 fibs = 0 : 1 : zipWith (+) fibs (tail fibs)
 

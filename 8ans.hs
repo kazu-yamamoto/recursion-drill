@@ -209,7 +209,7 @@ my_find p (x:xs)
 
 my_lookup :: Eq k => k -> [(k,v)] -> Maybe v
 my_lookup _ []           = Nothing
-my_lookup key ((k,v):kvs) 
+my_lookup key ((k,v):kvs)
     | key == k           = Just v
     | otherwise          = my_lookup key kvs
 
