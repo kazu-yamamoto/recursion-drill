@@ -51,6 +51,11 @@ jaCoinF f (F,n)         = f (E,n) + f (F,n-500)
 
 ----------------------------------------------------------------
 
+my_fib :: Integer -> Integer
+my_fib 0 = 0
+my_fib 1 = 1
+my_fib n = my_fib (n - 2) + my_fib (n - 1)
+
 my_fib_memo :: Integer -> Integer
 my_fib_memo x = memoFix fibF x
   where
@@ -60,6 +65,15 @@ my_fib_memo x = memoFix fibF x
     fibF f n = f (n - 2) + f (n - 1)
 
 ----------------------------------------------------------------
+
+my_catalan :: Integer -> Integer
+my_catalan x = cat x x
+  where
+    cat :: Integer -> Integer -> Integer
+    cat _ 0 = 1
+    cat m n
+      | m == n    = cat m (n - 1)
+      | otherwise = cat m (n - 1) + cat (m - 1) n
 
 my_catalan_memo :: Integer -> Integer
 my_catalan_memo x = memoFix2 catF x x
@@ -72,6 +86,13 @@ my_catalan_memo x = memoFix2 catF x x
 
 ----------------------------------------------------------------
 
+my_catalan2 :: Integer -> Integer
+my_catalan2 0 = 1
+my_catalan2 n = sum (zipWith (*) xs ys)
+  where
+    xs = map my_catalan2 [0 .. n - 1]
+    ys = map my_catalan2 [n - 1, n - 2 .. 0]
+
 my_catalan2_memo :: Integer -> Integer
 my_catalan2_memo x = memoFix catF x
   where
@@ -83,6 +104,13 @@ my_catalan2_memo x = memoFix catF x
         ys = map f [n - 1, n - 2 .. 0]
 
 ----------------------------------------------------------------
+
+my_coin :: (Integer,[Integer]) -> Integer
+my_coin (0,_)   = 1
+my_coin (_,[])  = 0
+my_coin (n,ccs@(c:cs))
+  | n < 0     = 0
+  | otherwise = my_coin (n,cs) + my_coin ((n - c),ccs)
 
 my_coin_memo :: Integer -> [Integer] -> Integer
 my_coin_memo x xs = memoFix coinF (x,xs)
