@@ -103,7 +103,7 @@ my_first f (x,y) = (f x, y)
 
 my_expr_simple :: String -> (Int, String)
 my_expr_simple xs = case my_nat xs of
-    (x, '+':left) -> my_first (x+) $ my_expr_simple left
+    (x, '+':left) -> my_first (x+) (my_expr_simple left)
     xl            -> xl
 
 ----------------------------------------------------------------
