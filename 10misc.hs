@@ -1,3 +1,6 @@
+-- To test examples in commnets, type
+-- % doctest 10misc.hs
+
 module Main where
 
 import Data.Char
