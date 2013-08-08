@@ -8,38 +8,38 @@ main :: IO ()
 main = hspec $ do
     describe "my_reverse" $
         prop "behaves like model" $ \(xs :: [Char]) ->
-           (my_reverse xs) `shouldBe` (reverse xs)
+           my_reverse xs `shouldBe` reverse xs
     describe "my_reverse_iter" $
         prop "behaves like model" $ \(xs :: [Char]) ->
-           (my_reverse_iter xs) `shouldBe` (reverse xs)
+           my_reverse_iter xs `shouldBe` reverse xs
     describe "my_map" $
         prop "behaves like model" $ \(xs :: [Integer]) ->
-           (my_map (+1) xs) `shouldBe` (map (+1) xs)
+           my_map (+1) xs `shouldBe` map (+1) xs
     describe "my_map_iter" $
         prop "behaves like model" $ \(xs :: [Integer]) ->
-           (my_map_iter (+1) xs) `shouldBe` (map (+1) xs)
+           my_map_iter (+1) xs `shouldBe` map (+1) xs
     describe "my_filter" $
         prop "behaves like model" $ \(xs :: [Integer]) -> do
-           (my_filter even xs) `shouldBe` (filter even xs)
-           (my_filter odd  xs) `shouldBe` (filter odd  xs)
-           (my_filter (>5) xs) `shouldBe` (filter (>5) xs)
+           my_filter even xs `shouldBe` filter even xs
+           my_filter odd  xs `shouldBe` filter odd  xs
+           my_filter (>5) xs `shouldBe` filter (>5) xs
     describe "my_append" $
         prop "behaves like model" $ \(xs :: [Char]) (ys :: [Char]) ->
-           (xs `my_append` ys) `shouldBe` (xs ++ ys)
+           xs `my_append` ys `shouldBe` xs ++ ys
     describe "my_concat" $
         prop "behaves like model" $ \(xxs :: [[Char]]) ->
-           (my_concat xxs) `shouldBe` (concat xxs)
+           my_concat xxs `shouldBe` concat xxs
     describe "my_break" $
         prop "behaves like model" $ \(xs :: [Integer]) -> do
-           (my_break even xs) `shouldBe` (break even xs)
-           (my_break odd  xs) `shouldBe` (break odd  xs)
-           (my_break (>5) xs) `shouldBe` (break (>5) xs)
+           my_break even xs `shouldBe` break even xs
+           my_break odd  xs `shouldBe` break odd  xs
+           my_break (>5) xs `shouldBe` break (>5) xs
     describe "my_intersperse" $
         prop "behaves like model" $ \(xs :: [Integer]) ->
-           (my_intersperse 1 xs) `shouldBe` (intersperse 1 xs)
+           my_intersperse 1 xs `shouldBe` intersperse 1 xs
     describe "my_group" $
         prop "behaves like model" $ \(xs :: [Bool]) ->
-           (my_group xs) `shouldBe` (group xs)
+           my_group xs `shouldBe` group xs
 
 ----------------------------------------------------------------
 

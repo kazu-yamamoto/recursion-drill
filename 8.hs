@@ -75,12 +75,12 @@ main = hspec $ do
            my_lookup k xs `shouldBe` lookup k xs
     describe "my_foldr" $
         prop "behaves like model" $ \(xs :: [Integer]) -> do
-           my_foldr (+) 0 xs `shouldBe` foldr (+) 0 xs
-           my_foldr (*) 1 xs `shouldBe` foldr (*) 1 xs
+           my_foldr (+) 0 xs `shouldBe` sum xs
+           my_foldr (*) 1 xs `shouldBe` product xs
     describe "my_foldl" $
         prop "behaves like model" $ \(xs :: [Integer]) -> do
-           my_foldl (+) 0 xs `shouldBe` foldl (+) 0 xs
-           my_foldl (*) 1 xs `shouldBe` foldl (*) 1 xs
+           my_foldl (+) 0 xs `shouldBe` sum xs
+           my_foldl (*) 1 xs `shouldBe` product xs
 
 ----------------------------------------------------------------
 

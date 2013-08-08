@@ -16,10 +16,10 @@ main = hspec $ do
     describe "my_coin" $ do
         it "calculates the same results of America coins " $ do
             let xs = [1..150]
-            map (flip my_coin [1,5,10,25,50]) xs `shouldBe` map usCoin xs
+            map (`my_coin` [1,5,10,25,50]) xs `shouldBe` map usCoin xs
         it "calculates the same results of Japanese coins " $ do
             let xs = [1..150]
-            map (flip my_coin [1,5,10,50,100,500]) xs `shouldBe` map jaCoin xs
+            map (`my_coin` [1,5,10,50,100,500]) xs `shouldBe` map jaCoin xs
 
 ----------------------------------------------------------------
 

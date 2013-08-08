@@ -101,7 +101,7 @@ my_coin (0,_)   = 1
 my_coin (_,[])  = 0
 my_coin (n,ccs@(c:cs))
   | n < 0     = 0
-  | otherwise = my_coin (n,cs) + my_coin ((n - c),ccs)
+  | otherwise = my_coin (n,cs) + my_coin (n-c,ccs)
 
 my_coin_memo :: Integer -> [Integer] -> Integer
 my_coin_memo x xs = memoFix coinF (x,xs)
@@ -128,7 +128,7 @@ main = hspec $ do
     describe "my_coin_memo" $ do
         it "calculates the same results of America coins " $ do
             let xs = [1..150]
-            map (flip my_coin_memo [1,5,10,25,50]) xs `shouldBe` map usCoin xs
+            map (`my_coin_memo` [1,5,10,25,50]) xs `shouldBe` map usCoin xs
         it "calculates the same results of Japanese coins " $ do
             let xs = [1..150]
-            map (flip my_coin_memo [1,5,10,50,100,500]) xs `shouldBe` map jaCoin xs
+            map (`my_coin_memo` [1,5,10,50,100,500]) xs `shouldBe` map jaCoin xs
