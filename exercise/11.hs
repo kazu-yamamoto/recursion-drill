@@ -56,7 +56,7 @@ my_insert :: Ord a => a -> Tree a -> Tree a
 my_insert e Leaf = Node Leaf e Leaf
 my_insert e (Node l x r) = case compare e x of
     LT -> undefined
-    EQ -> undefined
+    EQ -> Node l e r
     GT -> undefined
 
 ----------------------------------------------------------------
