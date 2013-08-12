@@ -26,5 +26,5 @@
 
 - 探索木の親戚であるヒープ(優先順位付きキュー)を学ぼう。[関数プログラミングの楽しみ](http://www.amazon.co.jp/%E9%96%A2%E6%95%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E3%81%AE%E6%A5%BD%E3%81%97%E3%81%BF-%EF%BC%AA%EF%BD%85%EF%BD%92%EF%BD%85%EF%BD%8D%EF%BD%99-%EF%BC%A7%EF%BD%89%EF%BD%82%EF%BD%82%EF%BD%8F%EF%BD%8E%EF%BD%93-%EF%BD%81%EF%BD%8E%EF%BD%84-%EF%BC%AF%EF%BD%85%EF%BD%87%EF%BD%85-%EF%BD%84%EF%BD%85-%EF%BC%AD%EF%BD%8F%EF%BD%8F%EF%BD%92/dp/4274068056)の第一章に「ねじれヒープ」(Skew heap)が載っている。二項ヒープ(二分ヒープと間違えないように)についても調べてみるといいだろう。
 
-- 多相性再帰を理解するためには、[フィンガーツリー](http://ja.wikipedia.org/wiki/2-3_%E3%83%95%E3%82%A3%E3%83%B3%E3%82%AC%E3%83%BC%E3%83%84%E3%83%AA%E3%83%BC)を調べよう。Haskellの実装は、[Data.Sequence](http://hackage.haskell.org/packages/archive/containers/latest/doc/html/Data-Sequence.html)である。
+- 多相性再帰を理解するためには、[フィンガーツリー](http://ja.wikipedia.org/wiki/2-3_%E3%83%95%E3%82%A3%E3%83%B3%E3%82%AC%E3%83%BC%E3%83%84%E3%83%AA%E3%83%BC)を調べよう。Haskellでの実装は、[Data.Sequence](http://hackage.haskell.org/packages/archive/containers/latest/doc/html/Data-Sequence.html)である。
 
