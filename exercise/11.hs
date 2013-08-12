@@ -1,7 +1,5 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module A where
-
 import Data.List
 import Test.Hspec
 import Test.Hspec.QuickCheck
