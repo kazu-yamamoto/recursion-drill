@@ -1,5 +1,3 @@
-module Main where
-
 import Data.Char
 import Test.Hspec
 
