@@ -100,8 +100,9 @@ my_postorder' (Node l x r) es = my_postorder' l (my_postorder' r (x:es))
 my_delete_min :: Ord a => Tree a -> (a, Tree a)
 my_delete_min Leaf            = error "my_delete_min"
 my_delete_min (Node Leaf x r) = (x, r)
-my_delete_min (Node l x r)    = let (m,l') = my_delete_min l
-                                in (m, Node l' x r)
+my_delete_min (Node l x r)    = (m, Node l' x r)
+  where
+    (m,l') = my_delete_min l
 
 ----------------------------------------------------------------
 
