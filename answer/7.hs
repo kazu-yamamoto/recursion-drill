@@ -25,34 +25,40 @@ catalanFormula n = bang (2 * n) `div` bang (n + 1) `div` bang n
 data FunID = A | B | C | D | E | F deriving (Eq, Ord, Enum)
 deriveMemoizable ''FunID
 
-usCoin :: Integer -> Integer
-usCoin n = memoFix usCoinF (E,n)
+us_coin_memo :: Integer -> Integer
+us_coin_memo = usCoinMemo E
 
-usCoinF :: ((FunID, Integer) -> Integer) -> ((FunID, Integer) -> Integer)
-usCoinF _ (_,n) | n < 0 = 0
-usCoinF _ (A,_)         = 1
-usCoinF f (B,n)         = f (A,n) + f (B,n-5)
-usCoinF f (C,n)         = f (B,n) + f (C,n-10)
-usCoinF f (D,n)         = f (C,n) + f (D,n-25)
-usCoinF f (E,n)         = f (D,n) + f (E,n-50)
-usCoinF _ _             = error "usCoinF"
+usCoinMemo :: FunID -> Integer -> Integer
+usCoinMemo = memoize2 usCoin
 
-jaCoin :: Integer -> Integer
-jaCoin n = memoFix jaCoinF (E,n)
+usCoin :: FunID -> Integer -> Integer
+usCoin _ n | n < 0 = 0
+usCoin A _         = 1
+usCoin B n         = usCoinMemo A n + usCoinMemo B (n-5)
+usCoin C n         = usCoinMemo B n + usCoinMemo C (n-10)
+usCoin D n         = usCoinMemo C n + usCoinMemo D (n-25)
+usCoin E n         = usCoinMemo D n + usCoinMemo E (n-50)
+usCoin _ _         = error "usCoin"
 
-jaCoinF :: ((FunID, Integer) -> Integer) -> ((FunID, Integer) -> Integer)
-jaCoinF _ (_,n) | n < 0 = 0
-jaCoinF _ (A,_)         = 1
-jaCoinF f (B,n)         = f (A,n) + f (B,n-5)
-jaCoinF f (C,n)         = f (B,n) + f (C,n-10)
-jaCoinF f (D,n)         = f (C,n) + f (D,n-50)
-jaCoinF f (E,n)         = f (D,n) + f (E,n-100)
-jaCoinF f (F,n)         = f (E,n) + f (F,n-500)
+ja_coin_memo :: Integer -> Integer
+ja_coin_memo = jaCoinMemo E
+
+jaCoinMemo :: FunID -> Integer -> Integer
+jaCoinMemo = memoize2 jaCoin
+
+jaCoin :: FunID -> Integer -> Integer
+jaCoin _ n | n < 0 = 0
+jaCoin A _         = 1
+jaCoin B n         = jaCoinMemo A n + jaCoinMemo B (n-5)
+jaCoin C n         = jaCoinMemo B n + jaCoinMemo C (n-10)
+jaCoin D n         = jaCoinMemo C n + jaCoinMemo D (n-50)
+jaCoin E n         = jaCoinMemo D n + jaCoinMemo E (n-100)
+jaCoin F n         = jaCoinMemo E n + jaCoinMemo F (n-500)
 
 ----------------------------------------------------------------
 
 my_fib_memo :: Integer -> Integer
-my_fib_memo n = memoize my_fib n
+my_fib_memo = memoize my_fib
 
 my_fib :: Integer -> Integer
 my_fib 0 = 0
@@ -61,42 +67,29 @@ my_fib n = my_fib_memo (n - 2) + my_fib_memo (n - 1)
 
 ----------------------------------------------------------------
 
-my_catalan :: Integer -> Integer
-my_catalan x = cat x x
-  where
-    cat :: Integer -> Integer -> Integer
-    cat _ 0 = 1
-    cat m n
-      | m == n    = cat m (n - 1)
-      | otherwise = cat m (n - 1) + cat (m - 1) n
-
 my_catalan_memo :: Integer -> Integer
-my_catalan_memo x = memoFix2 catF x x
-  where
-    catF :: (Integer -> Integer -> Integer) -> (Integer -> Integer -> Integer)
-    catF _ _ 0 = 1
-    catF f m n
-      | m == n    = f m (n - 1)
-      | otherwise = f m (n - 1) + f (m - 1) n
+my_catalan_memo n = my_cat_memo n n
+
+my_cat_memo :: Integer -> Integer -> Integer
+my_cat_memo = memoize2 my_cat
+
+my_cat :: Integer -> Integer -> Integer
+my_cat _ 0 = 1
+my_cat m n
+  | m == n    = my_cat_memo m (n - 1)
+  | otherwise = my_cat_memo m (n - 1) + my_cat_memo (m - 1) n
 
 ----------------------------------------------------------------
+
+my_catalan2_memo :: Integer -> Integer
+my_catalan2_memo = memoize my_catalan2
 
 my_catalan2 :: Integer -> Integer
 my_catalan2 0 = 1
 my_catalan2 n = sum (zipWith (*) xs ys)
   where
-    xs = map my_catalan2 [0 .. n - 1]
-    ys = map my_catalan2 [n - 1, n - 2 .. 0]
-
-my_catalan2_memo :: Integer -> Integer
-my_catalan2_memo x = memoFix catF x
-  where
-    catF :: (Integer -> Integer) -> (Integer -> Integer)
-    catF _ 0 = 1
-    catF f n = sum (zipWith (*) xs ys)
-      where
-        xs = map f [0 .. n - 1]
-        ys = map f [n - 1, n - 2 .. 0]
+    xs = map my_catalan2_memo [0 .. n - 1]
+    ys = map my_catalan2_memo [n - 1, n - 2 .. 0]
 
 ----------------------------------------------------------------
 
@@ -116,20 +109,20 @@ main :: IO ()
 main = hspec $ do
     describe "my_fib_memo" $
         it "calculates the same results of model" $ do
-            let xs = [1..10]
+            let xs = [1..100]
             map my_fib_memo xs `shouldBe` map fibModel xs
     describe "my_catalan_memo" $
         it "calculates the same results of formula" $ do
-            let xs = [1..10]
+            let xs = [1..100]
             map my_catalan_memo xs `shouldBe` map catalanFormula xs
     describe "my_catalan2_memo" $
         it "calculates the same results of formula" $ do
-            let xs = [1..10]
+            let xs = [1..100]
             map my_catalan2_memo xs `shouldBe` map catalanFormula xs
     describe "my_coin_memo" $ do
         it "calculates the same results of America coins " $ do
             let xs = [1..150]
-            map (my_coin_memo [1,5,10,25,50]) xs `shouldBe` map usCoin xs
+            map (my_coin_memo [1,5,10,25,50]) xs `shouldBe` map us_coin_memo xs
         it "calculates the same results of Japanese coins " $ do
             let xs = [1..150]
-            map (my_coin_memo [1,5,10,50,100,500]) xs `shouldBe` map jaCoin xs
+            map (my_coin_memo [1,5,10,50,100,500]) xs `shouldBe` map ja_coin_memo xs
