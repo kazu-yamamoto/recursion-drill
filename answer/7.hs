@@ -51,18 +51,13 @@ jaCoinF f (F,n)         = f (E,n) + f (F,n-500)
 
 ----------------------------------------------------------------
 
+my_fib_memo :: Integer -> Integer
+my_fib_memo n = memoize my_fib n
+
 my_fib :: Integer -> Integer
 my_fib 0 = 0
 my_fib 1 = 1
-my_fib n = my_fib (n - 2) + my_fib (n - 1)
-
-my_fib_memo :: Integer -> Integer
-my_fib_memo x = memoFix fibF x
-  where
-    fibF :: (Integer -> Integer) -> (Integer -> Integer)
-    fibF _ 0 = 0
-    fibF _ 1 = 1
-    fibF f n = f (n - 2) + f (n - 1)
+my_fib n = my_fib_memo (n - 2) + my_fib_memo (n - 1)
 
 ----------------------------------------------------------------
 
@@ -105,22 +100,15 @@ my_catalan2_memo x = memoFix catF x
 
 ----------------------------------------------------------------
 
-my_coin :: (Integer,[Integer]) -> Integer
-my_coin (0,_)   = 1
-my_coin (_,[])  = 0
-my_coin (n,ccs@(c:cs))
-  | n < 0     = 0
-  | otherwise = my_coin (n,cs) + my_coin (n-c,ccs)
+my_coin_memo :: [Integer] -> Integer -> Integer
+my_coin_memo = memoize2 my_coin
 
-my_coin_memo :: Integer -> [Integer] -> Integer
-my_coin_memo x xs = memoFix coinF (x,xs)
-  where
-    coinF :: ((Integer,[Integer]) -> Integer) -> ((Integer,[Integer]) -> Integer)
-    coinF _ (0,_)  = 1
-    coinF _ (_,[]) = 0
-    coinF f (n,ccs@(c:cs))
-      | n < 0     = 0
-      | otherwise = f (n,cs) + f (n-c,ccs)
+my_coin :: [Integer] -> Integer -> Integer
+my_coin _ 0  = 1
+my_coin [] _ = 0
+my_coin ccs@(c:cs) n
+  | n < 0     = 0
+  | otherwise = my_coin_memo cs n + my_coin_memo ccs (n - c)
 
 ----------------------------------------------------------------
 
@@ -141,7 +129,7 @@ main = hspec $ do
     describe "my_coin_memo" $ do
         it "calculates the same results of America coins " $ do
             let xs = [1..150]
-            map (`my_coin_memo` [1,5,10,25,50]) xs `shouldBe` map usCoin xs
+            map (my_coin_memo [1,5,10,25,50]) xs `shouldBe` map usCoin xs
         it "calculates the same results of Japanese coins " $ do
             let xs = [1..150]
-            map (`my_coin_memo` [1,5,10,50,100,500]) xs `shouldBe` map jaCoin xs
+            map (my_coin_memo [1,5,10,50,100,500]) xs `shouldBe` map jaCoin xs
