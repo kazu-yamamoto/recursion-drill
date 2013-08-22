@@ -1,5 +1,3 @@
-{-# LANGUAGE TemplateHaskell #-}
-
 -- % cabal install memoize
 -- % cabal install hspec
 -- % runghc <this_file>
@@ -7,6 +5,29 @@
 import Data.Function.Memoize
 import Test.Hspec
 
+----------------------------------------------------------------
+
+main :: IO ()
+main = hspec $ do
+    describe "my_fib_memo" $
+        it "calculates the same results of model" $ do
+            let xs = [1..100]
+            map my_fib_memo xs `shouldBe` map fibModel xs
+    describe "my_catalan_memo" $
+        it "calculates the same results of formula" $ do
+            let xs = [1..100]
+            map my_catalan_memo xs `shouldBe` map catalanFormula xs
+    describe "my_catalan2_memo" $
+        it "calculates the same results of formula" $ do
+            let xs = [1..100]
+            map my_catalan2_memo xs `shouldBe` map catalanFormula xs
+    describe "my_coin_memo" $ do
+        it "calculates the same results of America coins " $ do
+            let xs = [1..10000]
+            map (my_coin_memo [1,5,10,25,50]) xs `shouldBe` map usCoinMemo xs
+        it "calculates the same results of Japanese coins " $ do
+            let xs = [1..10000]
+            map (my_coin_memo [1,5,10,50,100,500]) xs `shouldBe` map jaCoinMemo xs
 ----------------------------------------------------------------
 
 fibModel :: Integer -> Integer
@@ -22,38 +43,65 @@ catalanFormula n = bang (2 * n) `div` bang (n + 1) `div` bang n
 
 ----------------------------------------------------------------
 
-data FunID = A | B | C | D | E | F deriving (Eq, Ord, Enum)
-deriveMemoizable ''FunID
+usCoinMemo :: Integer -> Integer
+usCoinMemo = usCoinMemoE
 
-us_coin_memo :: Integer -> Integer
-us_coin_memo = usCoinMemo E
+usCoinMemoA :: Integer -> Integer
+usCoinMemoA _ = 1
+usCoinMemoB :: Integer -> Integer
+usCoinMemoB = memoize g
+  where
+    g n | n < 0     = 0
+        | otherwise = usCoinMemoA n + usCoinMemoB (n-5)
+usCoinMemoC :: Integer -> Integer
+usCoinMemoC  = memoize g
+  where
+    g n | n < 0     = 0
+        | otherwise = usCoinMemoB n + usCoinMemoC (n-10)
+usCoinMemoD :: Integer -> Integer
+usCoinMemoD  = memoize g
+  where
+    g n | n < 0     = 0
+        | otherwise = usCoinMemoC n + usCoinMemoD (n-25)
+usCoinMemoE :: Integer -> Integer
+usCoinMemoE  = memoize g
+  where
+    g n | n < 0     = 0
+        | otherwise = usCoinMemoD n + usCoinMemoE (n-50)
 
-usCoinMemo :: FunID -> Integer -> Integer
-usCoinMemo = memoize2 usCoin
+----------------------------------------------------------------
 
-usCoin :: FunID -> Integer -> Integer
-usCoin _ n | n < 0 = 0
-usCoin A _         = 1
-usCoin B n         = usCoinMemo A n + usCoinMemo B (n-5)
-usCoin C n         = usCoinMemo B n + usCoinMemo C (n-10)
-usCoin D n         = usCoinMemo C n + usCoinMemo D (n-25)
-usCoin E n         = usCoinMemo D n + usCoinMemo E (n-50)
-usCoin _ _         = error "usCoin"
+jaCoinMemo :: Integer -> Integer
+jaCoinMemo = jaCoinMemoF
 
-ja_coin_memo :: Integer -> Integer
-ja_coin_memo = jaCoinMemo E
+jaCoinMemoA :: Integer -> Integer
+jaCoinMemoA _ = 1
+jaCoinMemoB :: Integer -> Integer
+jaCoinMemoB = memoize g
+  where
+    g n | n < 0     = 0
+        | otherwise = jaCoinMemoA n + jaCoinMemoB (n-5)
+jaCoinMemoC :: Integer -> Integer
+jaCoinMemoC  = memoize g
+  where
+    g n | n < 0     = 0
+        | otherwise = jaCoinMemoB n + jaCoinMemoC (n-10)
+jaCoinMemoD :: Integer -> Integer
+jaCoinMemoD  = memoize g
+  where
+    g n | n < 0     = 0
+        | otherwise = jaCoinMemoC n + jaCoinMemoD (n-50)
+jaCoinMemoE :: Integer -> Integer
+jaCoinMemoE  = memoize g
+  where
+    g n | n < 0     = 0
+        | otherwise = jaCoinMemoD n + jaCoinMemoE (n-100)
 
-jaCoinMemo :: FunID -> Integer -> Integer
-jaCoinMemo = memoize2 jaCoin
-
-jaCoin :: FunID -> Integer -> Integer
-jaCoin _ n | n < 0 = 0
-jaCoin A _         = 1
-jaCoin B n         = jaCoinMemo A n + jaCoinMemo B (n-5)
-jaCoin C n         = jaCoinMemo B n + jaCoinMemo C (n-10)
-jaCoin D n         = jaCoinMemo C n + jaCoinMemo D (n-50)
-jaCoin E n         = jaCoinMemo D n + jaCoinMemo E (n-100)
-jaCoin F n         = jaCoinMemo E n + jaCoinMemo F (n-500)
+jaCoinMemoF :: Integer -> Integer
+jaCoinMemoF  = memoize g
+  where
+    g n | n < 0     = 0
+        | otherwise = jaCoinMemoE n + jaCoinMemoF (n-500)
 
 ----------------------------------------------------------------
 
@@ -102,27 +150,3 @@ my_coin [] _ = 0
 my_coin ccs@(c:cs) n
   | n < 0     = 0
   | otherwise = my_coin_memo cs n + my_coin_memo ccs (n - c)
-
-----------------------------------------------------------------
-
-main :: IO ()
-main = hspec $ do
-    describe "my_fib_memo" $
-        it "calculates the same results of model" $ do
-            let xs = [1..100]
-            map my_fib_memo xs `shouldBe` map fibModel xs
-    describe "my_catalan_memo" $
-        it "calculates the same results of formula" $ do
-            let xs = [1..100]
-            map my_catalan_memo xs `shouldBe` map catalanFormula xs
-    describe "my_catalan2_memo" $
-        it "calculates the same results of formula" $ do
-            let xs = [1..100]
-            map my_catalan2_memo xs `shouldBe` map catalanFormula xs
-    describe "my_coin_memo" $ do
-        it "calculates the same results of America coins " $ do
-            let xs = [1..150]
-            map (my_coin_memo [1,5,10,25,50]) xs `shouldBe` map us_coin_memo xs
-        it "calculates the same results of Japanese coins " $ do
-            let xs = [1..150]
-            map (my_coin_memo [1,5,10,50,100,500]) xs `shouldBe` map ja_coin_memo xs
