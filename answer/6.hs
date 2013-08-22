@@ -57,13 +57,13 @@ jaCoin  n         = jaCoinE n + jaCoin  (n - 500)
 ----------------------------------------------------------------
 
 my_catalan :: Integer -> Integer
-my_catalan x = cat x x
-  where
-    cat :: Integer -> Integer -> Integer
-    cat _ 0 = 1
-    cat m n
-      | m == n    = cat m (n - 1)
-      | otherwise = cat m (n - 1) + cat (m - 1) n
+my_catalan x = my_cat x x
+
+my_cat :: Integer -> Integer -> Integer
+my_cat _ 0 = 1
+my_cat m n
+  | m == n    = my_cat m (n - 1)
+  | otherwise = my_cat m (n - 1) + my_cat (m - 1) n
 
 ----------------------------------------------------------------
 
