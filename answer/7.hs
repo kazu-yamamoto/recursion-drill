@@ -24,10 +24,10 @@ main = hspec $ do
     describe "my_coin_memo" $ do
         it "calculates the same results of America coins " $ do
             let xs = [1..10000]
-            map (my_coin_memo [1,5,10,25,50]) xs `shouldBe` map usCoinMemo xs
+            map (`my_coin_memo` [1,5,10,25,50]) xs `shouldBe` map usCoinMemo xs
         it "calculates the same results of Japanese coins " $ do
             let xs = [1..10000]
-            map (my_coin_memo [1,5,10,50,100,500]) xs `shouldBe` map jaCoinMemo xs
+            map (`my_coin_memo` [1,5,10,50,100,500]) xs `shouldBe` map jaCoinMemo xs
 ----------------------------------------------------------------
 
 fibModel :: Integer -> Integer
@@ -141,12 +141,12 @@ my_catalan2 n = sum (zipWith (*) xs ys)
 
 ----------------------------------------------------------------
 
-my_coin_memo :: [Integer] -> Integer -> Integer
+my_coin_memo :: Integer -> [Integer] -> Integer
 my_coin_memo = memoize2 my_coin
 
-my_coin :: [Integer] -> Integer -> Integer
-my_coin _ 0  = 1
-my_coin [] _ = 0
-my_coin ccs@(c:cs) n
+my_coin :: Integer -> [Integer] -> Integer
+my_coin 0 _   = 1
+my_coin _ []  = 0
+my_coin n ccs@(c:cs)
   | n < 0     = 0
-  | otherwise = my_coin_memo cs n + my_coin_memo ccs (n - c)
+  | otherwise = my_coin_memo n cs + my_coin_memo (n - c) ccs
