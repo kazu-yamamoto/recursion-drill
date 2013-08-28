@@ -124,16 +124,6 @@ my_odd_m n = my_even_m (n - 1)
 
 ----------------------------------------------------------------
 
-my_even_m :: Integer -> Bool
-my_even_m 0 = True
-my_even_m n = my_odd_m (n - 1)
-
-my_odd_m :: Integer -> Bool
-my_odd_m 0 = False
-my_odd_m n = my_even_m (n - 1)
-
-----------------------------------------------------------------
-
 my_even_m2 :: Integer -> Bool
 my_even_m2 0 = True
 my_even_m2 n = undefined
