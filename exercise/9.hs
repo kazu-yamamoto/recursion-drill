@@ -91,7 +91,7 @@ my_intersperse = undefined
 
 my_break :: (a -> Bool) -> [a] -> ([a], [a])
 my_break _ [] = ([],[])
-my_break p xxs@(x:xs) = undefined
+my_break p (x:xs) = undefined
 
 ----------------------------------------------------------------
 

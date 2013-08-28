@@ -158,9 +158,9 @@ my_catalan2 = undefined
 my_coin :: Integer -> [Integer] -> Integer
 my_coin 0 _   = 1
 my_coin _ []  = 0
-my_coin n ccs@(c:cs)
+my_coin n (c:cs)
   | n < 0     = 0
-  | otherwise = my_coin n cs + my_coin (n - c) ccs
+  | otherwise = my_coin n cs + my_coin (n - c) (c:cs)
 -}
 
 my_coin_memo :: Integer -> [Integer] -> Integer

@@ -79,6 +79,6 @@ my_catalan2 n = sum (zipWith (*) xs ys)
 my_coin :: Integer -> [Integer] -> Integer
 my_coin 0 _   = 1
 my_coin _ []  = 0
-my_coin n ccs@(c:cs)
+my_coin n (c:cs)
   | n < 0     = 0
   | otherwise = undefined

@@ -147,6 +147,6 @@ my_coin_memo = memoize2 my_coin
 my_coin :: Integer -> [Integer] -> Integer
 my_coin 0 _   = 1
 my_coin _ []  = 0
-my_coin n ccs@(c:cs)
+my_coin n (c:cs)
   | n < 0     = 0
-  | otherwise = my_coin_memo n cs + my_coin_memo (n - c) ccs
+  | otherwise = my_coin_memo n cs + my_coin_memo (n - c) (c:cs)

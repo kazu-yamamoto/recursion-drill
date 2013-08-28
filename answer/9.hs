@@ -95,8 +95,8 @@ my_intersperse s (x:xs) = x : s : my_intersperse s xs
 
 my_break :: (a -> Bool) -> [a] -> ([a], [a])
 my_break _ [] = ([],[])
-my_break p xxs@(x:xs)
-  | p x       = ([],xxs)
+my_break p (x:xs)
+  | p x       = ([],x:xs)
   | otherwise = (x:ys, zs)
   where
     (ys,zs) = my_break p xs
