@@ -53,7 +53,7 @@ my_paren_seq left0       = (0,left0)
 my_open_seq :: String -> (Int, String)
 my_open_seq left0 = (cnt1+cnt2, left2)
   where
-    (cnt1,left1) = my_close    left0
+    (cnt1,left1) = my_close     left0
     (cnt2,left2) = my_paren_seq left1
 
 ----------------------------------------------------------------
@@ -67,7 +67,7 @@ my_open_rec :: String -> (Int, String)
 my_open_rec left0 = (cnt1+cnt2, left2)
   where
     (cnt1,left1) = my_paren_rec left0
-    (cnt2,left2) = my_close    left1
+    (cnt2,left2) = my_close     left1
 
 ----------------------------------------------------------------
 -- Counting parenthesis generally
@@ -79,9 +79,9 @@ my_paren left0       = (0,left0)
 my_open :: String -> (Int, String)
 my_open left0 = (cnt1+cnt2+cnt3, left3)
   where
-    (cnt1,left1) = my_paren  left0
+    (cnt1,left1) = my_paren left0
     (cnt2,left2) = my_close left1
-    (cnt3,left3) = my_paren  left2
+    (cnt3,left3) = my_paren left2
 
 ----------------------------------------------------------------
 ----------------------------------------------------------------
