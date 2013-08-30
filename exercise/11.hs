@@ -26,14 +26,26 @@ prop_member :: [Int] -> Expectation
 prop_member [] = return ()
 prop_member es = and rs `shouldBe` True
   where
-    t = my_from_list es
+    t = from_list es
     rs = [my_member e t | e <- es]
 
 prop_member_model :: Int -> [Int] -> Expectation
 prop_member_model x [] = my_member x Leaf `shouldBe` False
 prop_member_model x es = my_member x t `shouldBe` elem x es
   where
-    t = my_from_list es
+    t = from_list es
+
+-- This code is intentionally duplicated for the test of my_member.
+
+from_list :: Ord a => [a] -> Tree a
+from_list es = foldl ins Leaf es
+  where
+    ins :: Ord a => Tree a -> a -> Tree a
+    ins Leaf e = Node Leaf e Leaf
+    ins (Node l x r) e = case compare e x of
+        LT -> Node (ins l e) x r
+        EQ -> Node l e r
+        GT -> Node l x (ins r e)
 
 ----------------------------------------------------------------
 
