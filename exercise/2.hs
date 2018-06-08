@@ -26,7 +26,7 @@ main = hspec $ do
 
 -- my_soap :: Integer -> Integer
 -- my_soap 0 = 0
--- my_soap n = soap (n-1) + n
+-- my_soap n = my_soap (n-1) + n
 
 my_soap_iter :: Integer -> Integer
 my_soap_iter x = iter x 0
@@ -37,7 +37,7 @@ my_soap_iter x = iter x 0
 
 -- my_fact :: Integer -> Integer
 -- my_fact 1 = 1
--- my_fact n = fact (n - 1) * n
+-- my_fact n = my_fact (n - 1) * n
 
 my_fact_iter :: Integer -> Integer
 my_fact_iter x = iter x 1
@@ -48,7 +48,7 @@ my_fact_iter x = iter x 1
 
 -- my_mul :: Integer -> Integer -> Integer
 -- my_mul m 1 = m
--- my_mul m n = mul m (n - 1) + m
+-- my_mul m n = my_mul m (n - 1) + m
 
 my_mul_iter :: Integer -> Integer -> Integer
 my_mul_iter x y = iter x y x
@@ -59,7 +59,7 @@ my_mul_iter x y = iter x y x
 
 -- my_plus :: Integer -> Integer -> Integer
 -- my_plus m 0 = m
--- my_plus m n = plus m (n - 1) + 1
+-- my_plus m n = my_plus m (n - 1) + 1
 
 my_plus_iter :: Integer -> Integer -> Integer
 my_plus_iter x y = iter x y undefined
@@ -69,7 +69,7 @@ my_plus_iter x y = iter x y undefined
 
 -- my_minus :: Integer -> Integer -> Integer
 -- my_minus m 0 = m
--- my_minus m n = minus m (n - 1) - 1
+-- my_minus m n = my_minus m (n - 1) - 1
 
 my_minus_iter :: Integer -> Integer -> Integer
 my_minus_iter x y = iter x y undefined
@@ -79,7 +79,7 @@ my_minus_iter x y = iter x y undefined
 
 -- my_power :: Integer -> Integer -> Integer
 -- my_power _ 0 = 1
--- my_power m n = power m (n - 1) * m
+-- my_power m n = my_power m (n - 1) * m
 
 my_power_iter :: Integer -> Integer -> Integer
 my_power_iter x y = iter x y undefined
