@@ -41,8 +41,8 @@
 
 テストに利用している hspec ライブラリを以下のようにしてインストールして下さい。
 
-   % stack setup
-   % stack install hspec
+    % stack setup
+    % stack install hspec
 
 演習は、"数字.hs" というファイル中の undefined を変更することで解いていきましょう。ある部分ができたと思ったら、テストして動作を確認して下さい。たとえば、"1.hs" を書き換えた後は、以下のようにしてテストできます。
 
