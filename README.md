@@ -1,6 +1,6 @@
 # 再帰ドリル
 
-再帰を学ぶためのドリルです。使用するプログラミング言語は Haskell。[Haskell Platform](http://www.haskell.org/platform/) の利用を推奨します。
+再帰を学ぶためのドリルです。使用するプログラミング言語は Haskell。
 
 1. [自然数に対する素朴な再帰](drill/1.md) ([演習1](exercise/1.hs))
 2. [自然数に対する末尾再帰](drill/2.md) ([演習2](exercise/2.hs))
@@ -16,12 +16,7 @@
 12. [二分探索木(走査と削除)](drill/12.md) ([演習12](exercise/12.hs))
 13. [おわりに](drill/epilogue.md)
 
-演習に取り組む前に、まずテストに利用している hspec ライブラリを以下のようにしてインストールして下さい。
-
-    % cabal update
-    % cabal install hspec
-
-次にこのレポジトリを clone して下さい。
+演習に取り組む前に、まずレポジトリを clone して下さい。
 
     % git clone git://github.com/kazu-yamamoto/recursion-drill.git
 
@@ -29,8 +24,28 @@
 
     % cd recursion-drill/exercise
 
+## cabal を使っている方
+
+テストに利用している hspec ライブラリを以下のようにしてインストールして下さい。
+
+    % cabal update
+    % cabal install hspec
+
 演習は、"数字.hs" というファイル中の undefined を変更することで解いていきましょう。ある部分ができたと思ったら、テストして動作を確認して下さい。たとえば、"1.hs" を書き換えた後は、以下のようにしてテストできます。
 
     % runghc 1.hs
+
+テストの結果は、成功は緑で、失敗は赤で表示されます。すべてが緑になるまで頑張りましょう。答えは answer というディレクトリにあります。考える前に答えを見てはいけません。
+
+## stack を使っている方
+
+テストに利用している hspec ライブラリを以下のようにしてインストールして下さい。
+
+   % stack setup
+   % stack install hspec
+
+演習は、"数字.hs" というファイル中の undefined を変更することで解いていきましょう。ある部分ができたと思ったら、テストして動作を確認して下さい。たとえば、"1.hs" を書き換えた後は、以下のようにしてテストできます。
+
+    % stack runghc 1.hs
 
 テストの結果は、成功は緑で、失敗は赤で表示されます。すべてが緑になるまで頑張りましょう。答えは answer というディレクトリにあります。考える前に答えを見てはいけません。
