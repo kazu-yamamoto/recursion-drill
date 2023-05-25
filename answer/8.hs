@@ -123,10 +123,8 @@ my_maximum :: Ord a => [a] -> a
 my_maximum []  = error "my_maximum"
 my_maximum [x] = x
 my_maximum (x:xs)
-  | x > y      = x
-  | otherwise  = y
-  where
-    y = my_maximum xs
+  | x > my_maximum xs      = x
+  | otherwise  = my_maximum xs
 
 my_maximum_iter :: Ord a => [a] -> a
 my_maximum_iter []  = error "my_maximum_iter"

@@ -18,7 +18,7 @@
 
 演習に取り組む前に、まずレポジトリを clone して下さい。
 
-    % git clone git://github.com/kazu-yamamoto/recursion-drill.git
+    % git clone https://github.com/kazu-yamamoto/recursion-drill.git
 
 演習は exercise ディレクトリにあります。
 
